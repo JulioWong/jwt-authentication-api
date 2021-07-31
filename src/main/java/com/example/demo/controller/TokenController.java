@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +22,17 @@ public class TokenController {
 	private jwtGenerator jwtGenerator;
 	
 	public TokenController(jwtGenerator jwtGenerator) {
-		System.out.println("AQUIIIIII");
-		System.out.println(jwtGenerator);
 		this.jwtGenerator = jwtGenerator;
 	}
 
 	@PostMapping
-	public ResponseEntity<String> generate(@RequestBody final Login login) {
+	public ResponseEntity<?> generate(@RequestBody final Login login) {
 		JwtUser jwtUser = new JwtUser();
 		jwtUser = existUser(login);
-		
+		HashMap<String, String> lista = new HashMap<String, String>();
+		lista.put("Token", jwtGenerator.generate(jwtUser));
 		if (jwtUser != null) {
-			return new ResponseEntity<String>(jwtGenerator.generate(jwtUser), HttpStatus.OK);
+			return new ResponseEntity<HashMap<String, String>>(lista, HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

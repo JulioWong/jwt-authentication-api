@@ -15,11 +15,12 @@ public class SecurityController {
 
 	@GetMapping("/only_jwt")
 	public ResponseEntity<?> getInfoBancaria() {
+		System.out.println("Holi boli");
 		List<String> movimientosBancarios = obtenerUltimosMovimientosBancarios();
-		if (movimientosBancarios != null && movimientosBancarios.size() > 0) {
-			return new ResponseEntity<>(movimientosBancarios, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//if (movimientosBancarios != null && movimientosBancarios.size() > 0) {
+			return new ResponseEntity<>(movimientosBancarios, HttpStatus.CREATED);
+		//}
+		//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	private List<String> obtenerUltimosMovimientosBancarios() {

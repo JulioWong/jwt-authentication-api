@@ -26,12 +26,13 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 		
 		String header = request.getHeader(Constants.AUTHORIZATION_HEADER);
 		
-		if (header == null || !header.startsWith(Constants.BEARER_TOKEN))
+		if(header == null || !header.startsWith(Constants.BEARER_TOKEN)) {
 			throw new RuntimeException("Jwt es incorrecto o no ha llegado nada");
-	
+		}
 		String authenticationToken = header.substring(7);
 		JwtAuthenticationToken token = new JwtAuthenticationToken(authenticationToken);
-		
+	
+
 		return getAuthenticationManager().authenticate(token);
 	}
 
@@ -40,5 +41,7 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 			Authentication authResult) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		super.successfulAuthentication(request, response, chain, authResult);
+		chain.doFilter(request, response);
 	}
+	
 }
